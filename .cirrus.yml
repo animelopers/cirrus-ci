@@ -18,8 +18,8 @@ task:
        - export DEBIAN_FRONTEND=noninteractive
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
-       - git config --global user.name "ALprjkt"
-       - git config --global user.email "168145100+ALprjkt@users.noreply.github.com"
+       - git config --global user.name "animelopers"
+       - git config --global user.email "nuraly042000@gmail.com"
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
