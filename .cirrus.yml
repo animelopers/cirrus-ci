@@ -54,7 +54,7 @@ task:
       - export BUILD_HOSTNAME="animelopers"
       - export KBUILD_BUILD_USER="ALprjkt"
       - export KBUILD_BUILD_HOST="animelopers"
-#      - export WITH_GAPPS=true
+      - export WITH_GAPPS=true
       - export ALLOW_MISSING_DEPENDENCIES=true
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build qassa for ysl Started!"
