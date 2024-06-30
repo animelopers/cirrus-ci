@@ -40,7 +40,7 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
+      - repo init --git-lfs --depth=1  -u https://github.com/LineageOS/android.git -b lineage-21.0
       - git clone --depth 1 https://github.com/animelopers/local_manifest.git -b los .repo/local_manifests
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
 #      - sed -i 's|ssh://git@github.com|https://github.com|g' .repo/manifests/snippets/qassa.xml
