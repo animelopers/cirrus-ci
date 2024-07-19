@@ -1,0 +1,66 @@
+env:
+    credentials: "ENCRYPTED[!58753513a9907e85b0eb95195cf7a0214ddc8b9ee5c7458c42c87b1b579429bd874300cd0413c98d86c05aef14a553b5!]"
+    rcloneconfig: "ENCRYPTED[!1a96e0ec32a75e57c86d12b79c5675d21d91d433ba9f86c48cbe5c7de0af337168a9a089b7a758bcfa47625fe176ef8d!]"
+    tokentl: "ENCRYPTED[!28854ac98eb88032aa34043535fbc91aabdee88a1abe5cfa00688b6f98ef921e68fc11e0938c60958aee624bb5222675!]"
+    idtl: "ENCRYPTED[!56b2a5ab033836b6cdd5bac4b129e586da630580ff694213dfb00ccbe33727c32916638bdfc1eba4e641ec5252d6649d!]"
+    lunch: lunch xdroid_ysl-user
+    make: make xd
+
+task:
+  name: "Setting Up, Syncing, Building and Uploading..."
+  timeout_in: 480m
+  container:
+      image: inok2341/anu:latest
+      cpu: 8
+      memory: 32G
+
+  Build-Env-Setup_background_script:
+       - export DEBIAN_FRONTEND=noninteractive
+       - mkdir -p ~/.config/rclone
+       - echo "$rcloneconfig" > ~/.rclone.conf
+       - git config --global user.name "ALprjkt"
+       - git config --global user.email "168145100+ALprjkt@users.noreply.github.com"
+       - echo "$credentials" > ~/.git-credentials
+       - git config --global credential.helper store --file=~/.git-credentials
+       - mkdir -p ~/ccache
+       - rclone copy rom:xd/ccache.tar.gz ~/ -P
+       - cd ~/
+       - time tar xf ccache.tar.gz
+       - cd ~/
+
+  Storage-Checker_background_script:
+      - df -h
+      - lsblk
+      - ls -l -a -h
+      - ./w.sh
+
+  Sync_script:
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Start sync Source"
+      - sudo su
+      - sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install
+      - mkdir -p ~/rom
+      - cd ~/rom
+      - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
+      - sudo chmod a+rx /usr/local/bin/repoo
+      - repoo init -q --no-repo-verify --depth=1 -u https://github.com/xdCLO/xd_manifest -b eleven -g default,-mips,-darwin,-notdefault
+      - git clone --depth 1 https://github.com/ALprjkt/local_manifest.git -b xd .repo/local_manifests
+      - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
+      - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+      - sed -i 's| -u||g' vendor/xdroid/config/xd_version.mk
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
+
+  Build_script:
+      - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build Started!"
+      - ./collect.sh
+#      - ./final.sh
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls xdCLO*.zip) Completed!"
+
+  Upload_script:
+      - ./upload.sh
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Compres ccache"
+      - ./ziping.sh
+      - cd ~/
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading ccache...."
+      - rclone copy ccache.tar.gz rom:xd -P
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Ccache Uploaded Successfully!"
