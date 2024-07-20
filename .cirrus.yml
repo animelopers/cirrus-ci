@@ -43,7 +43,7 @@ task:
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
       - repoo init -q --no-repo-verify --depth=1 -u https://github.com/crdroidandroid/android -b 11.0 -g default,-mips,-darwin,-notdefault
-      - git clone --depth 1 https://github.com/ALprjkt/local_manifest.git -b 11 .repo/local_manifests
+      - git clone --depth 1 https://github.com/ALprjkt/local_manifest.git -b cr11 .repo/local_manifests
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
       - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
