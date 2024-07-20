@@ -3,8 +3,8 @@ env:
     rcloneconfig: "ENCRYPTED[!1a96e0ec32a75e57c86d12b79c5675d21d91d433ba9f86c48cbe5c7de0af337168a9a089b7a758bcfa47625fe176ef8d!]"
     tokentl: "ENCRYPTED[!e8aca41d9f503a94dca3b731315f0ab3f6c22fb338ab0843bfca1af446da010203543d332ec8ce746f6a37d2eede9f58!]"
     idtl: "ENCRYPTED[!d36ec412c37a2c5de893a6d3adf521d4e51c6dc6bca5c3c95797c3f1754c9246bfd187280da9d7f39af2c944b87b7ad2!]"
-    lunch: lunch xdroid_ysl-user
-    make: make xd
+    lunch: lunch lineage_ysl-user
+    make: make bacon
 
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
@@ -42,11 +42,10 @@ task:
       - cd ~/rom
       - sudo curl --create-dirs -L -o /usr/local/bin/repoo -O -L https://storage.googleapis.com/git-repo-downloads/repo
       - sudo chmod a+rx /usr/local/bin/repoo
-      - repoo init -q --no-repo-verify --depth=1 -u https://github.com/xdCLO/xd_manifest -b eleven -g default,-mips,-darwin,-notdefault
-      - git clone --depth 1 https://github.com/ALprjkt/local_manifest.git -b xd .repo/local_manifests
+      - repoo init -q --no-repo-verify --depth=1 -u https://github.com/crdroidandroid/android -b 11.0 -g default,-mips,-darwin,-notdefault
+      - git clone --depth 1 https://github.com/ALprjkt/local_manifest.git -b 11 .repo/local_manifests
       - rm -rf .repo/repo && git clone https://gerrit.googlesource.com/git-repo .repo/repo
       - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-      - sed -i 's| -u||g' vendor/xdroid/config/xd_version.mk
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
 
   Build_script:
@@ -54,7 +53,7 @@ task:
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build Started!"
       - ./collect.sh
 #      - ./final.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls xdCLO*.zip) Completed!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls crDroid*.zip) Completed!"
 
   Upload_script:
       - ./upload.sh
