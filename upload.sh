@@ -1,11 +1,7 @@
-if [ -f ~/rom/out/target/product/ysl/xdCLO*.zip ]; then
-      curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading Build $(cd ~/rom/out/target/product/ysl/ && ls xdCLO*.zip)"
+if [ -f ~/rom/out/target/product/ysl/crDroid*.zip ]; then
+      curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading Build $(cd ~/rom/out/target/product/ysl/ && ls crDroid*.zip)"
       rclone copy ~/rom/out/target/product/ysl/CrDroid*.zip rom:xd -P
-      curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls xdCLO*.zip) Uploaded Successfully!"
-fi
-
-if [ -f ~/rom/out/target/product/ysl/obj/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb ]; then
-      rclone copy ~/rom/out/target/product/ysl/obj/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb rom:xd -P
+      curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls crDroid*.zip) Uploaded Successfully!"
 fi
 
 if [ -f ~/rom/out/error.log ]; then
