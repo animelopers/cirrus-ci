@@ -57,7 +57,7 @@ task:
  #     - export WITH_GAPPS=true
       - export ALLOW_MISSING_DEPENDENCIES=true
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build Qassa for ysl Started!"
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build Qassa for ysl Start!"
       - ./collect.sh
 #      - ./final.sh
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls qassa*.zip) Completed!"
